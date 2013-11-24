@@ -25,7 +25,7 @@ sub calcularMascarasAutomata {
 	my %B;
 	
 	for (my $j=0;$j<$m;$j++){
-		my $char = substr($p,$j,1)
+		my $char = substr($pPatron,$j,1);
 		$B{$char} = $B{$char} | (1 << $j);
 	}#fin for
 	
@@ -68,18 +68,21 @@ sub NFA{
 	for (my $j=0;$j<$n;$j++) {
 		my $char = substr $pPalabra, $j, 1;
 		my $pD = $D{0};
-		my $nD = (($D{0} << 1) & $B{$char};
+		my $nD = ($D{0} << 1) & $B{$char};
 		$D{0} = $nD;
 		for (my $i=1;$i<=$pErrores;$i++) {
-			$nD =	(($D{$i} << 1) & $B{$char}	|	#Igual
+			$nD =	(($D{$i} << 1) & $B{$char})	|	#Igual
 					$pD						  	|	#Inserción
 					$pD << 1					|	#Sustitución
 					$nD << 1					|	#Borrado
 					1;
 		}#fin for
+		print "$j.\t$nD\n";
 		if ($nD & $pLimite) {
 			return 1;
 		}#fin si se encontró el patrón
 	}#fin for
 	return 0;
 }#fin Non Finite Automaton
+
+1;

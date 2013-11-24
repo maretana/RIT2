@@ -16,13 +16,14 @@ use File::Find;
 require "shift-and.perl";
 require "horspool.perl";
 require "dinamico.perl";
+require "automata.perl";
 
 binmode(STDOUT, ":utf8");
 binmode(STDERR, ":utf8");
 
 use constant SIMILITUD => 0;
 use constant PATRON => 0;
-use constant ERRORES => 0;
+use constant ERRORES => 1;
 
 $argc = @ARGV;
 
