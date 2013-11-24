@@ -9,13 +9,11 @@
 =end comment
 =cut
 
-#use warnings "all";         # Muestra todos los warnings
 use utf8;	                # Necesario si el equipo está en esta codificación. 
+use Encode;
 
-my @alfabeto = ("a".."z");  # Arreglo que contiene el alfabeto
-my %tabla_d;                # Tabla que contiene los corrimientos
-
-#print(&busquedaHorspool($ARGV[0], $ARGV[1]) . "\n");
+binmode(STDOUT, ":utf8");
+binmode(STDERR, ":utf8");
 
 =begin comment
     Realiza la busqueda en un texto de un patron siguiendo el algoritmo
@@ -27,10 +25,9 @@ my %tabla_d;                # Tabla que contiene los corrimientos
 =end comment
 =cut
 sub busquedaHorspool {
-    my($pTexto, $pPatron) = @_;
-    
-    _calcularTabla($pPatron);
-    return _horspool($pTexto, $pPatron);
+    my($pTexto, $pPatron, %pTabla) = @_;
+
+    return _horspool($pTexto, $pPatron, %pTabla);
 }
 
 =begin comment
@@ -41,7 +38,8 @@ sub busquedaHorspool {
 =cut
 sub _calcularTabla {
     my($pPatron) = @_;
-    #my %tabla_d = (); #se reinicia la tabla cada vez que la calcula.
+    my @alfabeto = (split(//, "ñÑáéíóúüÁÉÍÓÚÜ"), ("a"..."z"), ("A"..."Z"));     # Arreglo que contiene el alfabeto
+    my %tabla_d;                                                                # Tabla que contiene los corrimientos
     my $largo_patron = length($pPatron);
     
     foreach my $letra (@alfabeto) {
@@ -51,6 +49,8 @@ sub _calcularTabla {
     for (my $index = 0; $index < $largo_patron - 1; $index++) {
         $tabla_d{substr($pPatron, $index, 1)} = $largo_patron - $index - 1;
     }
+    
+    return %tabla_d;
 }
 
 =begin comment
@@ -65,7 +65,7 @@ sub _calcularTabla {
 =end comment
 =cut
 sub _horspool {
-    my($pTexto, $pPatron) = @_;
+    my($pTexto, $pPatron, %pTabla) = @_;
     my $largo_texto = length($pTexto);
     my $largo_patron = length($pPatron);
     
@@ -82,7 +82,7 @@ sub _horspool {
         if ($posicion >= $largo_patron) {
             return 1;
         } else {
-            $index += $tabla_d{substr($pTexto, $index + $largo_patron - 1, 1)};
+            $index += $pTabla{substr($pTexto, $index + $largo_patron - 1, 1)};
         }
     }
     
