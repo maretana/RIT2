@@ -73,10 +73,10 @@ foreach $documento (@documentos) {
 		}#fi si es busqueda con errores 1
 		
 		elsif ($patron =~ /[0-9a-zA-Z_ñÑáéíóúüÁÉÍÓÚÜ]+/) {		#HORSPOOL
-			_calcularTabla($patron);
+            my %tabla_d = _calcularTabla($patron);
 			$apariciones = 0;
 			foreach $palabra (@palabras) {
-				$apariciones += _horspool($palabra,$patron);
+				$apariciones += _horspool($palabra, $patron, %tabla_d);
 			}#fin for
 			push @info_doc, $apariciones;
 		}#fin si es busqueda simple
