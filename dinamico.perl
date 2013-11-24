@@ -10,19 +10,20 @@
 =cut
 
 use List::Util qw(min);     # Usado para encontrar el minimo entre valores dados.
-use warnings "all";         # Muestra todos los warnings
 use utf8;	                # Necesario si el equipo está en esta codificación.
+
+binmode(STDOUT, ":utf8");
+binmode(STDERR, ":utf8");
 
 my @matriz;                 # Matriz que "recuerda" los resultados anteriores
 
-#&busquedaDinamica($ARGV[0], $ARGV[1]);
+#print(&busquedaDinamica($ARGV[0], $ARGV[1], $ARGV[2]) . "\n");
 
 sub busquedaDinamica {
-    my($pTexto, $pPatron) = @_;
+    my($pTexto, $pPatron, $pErrores) = @_;
     
     _inicializarMatriz($pTexto, $pPatron);
-    _dinamico($pTexto, $pPatron);
-    _imprimirMatriz(length($pTexto), length($pPatron));
+    _dinamico($pTexto, $pPatron, $pErrores);
 }
 
 sub _inicializarMatriz {
@@ -42,7 +43,7 @@ sub _inicializarMatriz {
 }
 
 sub _dinamico {
-    my($pTexto, $pPatron) = @_;
+    my($pTexto, $pPatron, $pErrores) = @_;
     my $largo_texto = length($pTexto);
     my $largo_patron = length($pPatron);
     
@@ -58,6 +59,24 @@ sub _dinamico {
             }
         }
     }
+    
+    return _buscarErrores($pTexto, $pPatron, $pErrores);
+}
+
+sub _buscarErrores {
+    my($pTexto, $pPatron, $pErrores) = @_;
+    my $largo_texto = length($pTexto);
+    my $largo_patron = length($pPatron);
+    my $encontrado = 0;
+    
+    for (my $columna = 1; $columna <= $largo_texto; $columna++) {
+        if ($matriz[$largo_patron][$columna] == $pErrores) {
+            $encontrado = 1;
+            last;
+        }
+    }
+    
+    return $encontrado;
 }
 
 sub _imprimirMatriz {
