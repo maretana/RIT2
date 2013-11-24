@@ -38,8 +38,8 @@ sub busquedaHorspool {
 =cut
 sub _calcularTabla {
     my($pPatron) = @_;
-    my @alfabeto = (split(//, "ñÑáéíóúüÁÉÍÓÚÜ"), ("a"..."z"), ("A"..."Z"));     # Arreglo que contiene el alfabeto
-    my %tabla_d;                                                                # Tabla que contiene los corrimientos
+    my @alfabeto = (split(//, "ñÑáéíóúüÁÉÍÓÚÜ_"), ("a"..."z"), ("A"..."Z"), (0..9));    # Arreglo que contiene el alfabeto
+    my %tabla_d = ();                                                                   # Tabla que contiene los corrimientos
     my $largo_patron = length($pPatron);
     
     foreach my $letra (@alfabeto) {
