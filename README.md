@@ -15,7 +15,7 @@ Segundo proyecto del curso Recuperación de Información Textual del Instituto T
         <dt>ruta_colección:</dt>
 	<dd>Ruta a la carpeta que contiene la colección que se va a analizar.</dd>
         <dt>patrones:</dt>
-	<dd>Patrones que se van a consultar. Cada patrón se busca usando un método distinto.Se define < palabra > como una secuencia con los caractéres: [0-9a-zA-Z_ñÑáéíóúüÁÉÍÓÚÜ] y al menos uno tiene q ser una letra.</dd>
+	<dd>Patrones que se van a consultar. Cada patrón se busca usando un método distinto.Se define &#60palabra> como una secuencia con los caractéres: [0-9a-zA-Z_ñÑáéíóúüÁÉÍÓÚÜ] y al menos uno tiene q ser una letra.</dd>
 </dl>
 Los métodos a utilizar son:
 	
