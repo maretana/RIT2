@@ -66,10 +66,14 @@ foreach $documento (@documentos) {
 		}#fin si es búsqueda con errores 2
 		
 		elsif ($patron =~ /#/){									#PROGRAMACION DINAMICA
-			die "Programación dinámica no implementada\n";
 			my @split = split '#', $patron;
-			my $errores = $split[ERRORES];		#Saca la cantidad de errores permitidos del patrón
-			my $patron2 = $split[PATRON];		#La parte del patrón antes del #
+			my $errores = $split[1];		        #Saca la cantidad de errores permitidos del patrón
+			my $patron2 = $split[0];		        #La parte del patrón antes del #
+            $apariciones = 0;
+			foreach $palabra (@palabras) {
+				$apariciones += busquedaDinamica($palabra, $patron2, $errores);
+			}#fin for
+			push @info_doc, $apariciones;
 		}#fi si es busqueda con errores 1
 		
 		elsif ($patron =~ /[0-9a-zA-Z_ñÑáéíóúüÁÉÍÓÚÜ]+/) {		#HORSPOOL
