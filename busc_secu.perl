@@ -17,6 +17,7 @@ require "shift-and.perl";
 require "horspool.perl";
 
 binmode(STDOUT, ":utf8");
+binmode(STDERR, ":utf8");
 
 use constant SIMILITUD => 0;
 
@@ -53,6 +54,15 @@ foreach $documento (@documentos) {
 			}#fin for
 			push @info_doc, $apariciones;
 		}#fin si es búsqueda con opciones
+		
+		elsif ($patron =~ /##/){
+			die "Autómata de estado finito no determinístico no implementado\n";
+		}#fin si es búsqueda con errores 2
+		
+		elsif ($patron =~ /#/){
+			die "Programación dinámica no implementada\n";
+		}#fi si es busqueda con errores 1
+		
 		elsif ($patron =~ /[0-9a-zA-Z_ñÑáéíóúüÁÉÍÓÚÜ]+/) {	#HORSPOOL
 			_calcularTabla($patron);
 			$apariciones = 0;
