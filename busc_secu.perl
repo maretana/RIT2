@@ -15,11 +15,14 @@ use File::Find;
 
 require "shift-and.perl";
 require "horspool.perl";
+require "dinamico.perl";
 
 binmode(STDOUT, ":utf8");
 binmode(STDERR, ":utf8");
 
 use constant SIMILITUD => 0;
+use constant PATRON => 0;
+use constant ERRORES => 0;
 
 $argc = @ARGV;
 
@@ -57,10 +60,16 @@ foreach $documento (@documentos) {
 		
 		elsif ($patron =~ /##/){								#AUTOMATA
 			die "Autómata de estado finito no determinístico no implementado\n";
+			my @split = split /##/, $patron;
+			my $errores = $split[ERRORES];		#Saca la cantidad de errores permitidos del patrón
+			my $patron2 = $split[PATRON];		#La parte del patrón antes del #
 		}#fin si es búsqueda con errores 2
 		
 		elsif ($patron =~ /#/){									#PROGRAMACION DINAMICA
 			die "Programación dinámica no implementada\n";
+			my @split = split '#', $patron;
+			my $errores = $split[ERRORES];		#Saca la cantidad de errores permitidos del patrón
+			my $patron2 = $split[PATRON];		#La parte del patrón antes del #
 		}#fi si es busqueda con errores 1
 		
 		elsif ($patron =~ /[0-9a-zA-Z_ñÑáéíóúüÁÉÍÓÚÜ]+/) {		#HORSPOOL

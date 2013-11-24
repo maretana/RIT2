@@ -15,7 +15,7 @@ use utf8;	                # Necesario si el equipo está en esta codificación.
 
 my @matriz;                 # Matriz que "recuerda" los resultados anteriores
 
-&busquedaDinamica($ARGV[0], $ARGV[1]);
+#&busquedaDinamica($ARGV[0], $ARGV[1]);
 
 sub busquedaDinamica {
     my($pTexto, $pPatron) = @_;
@@ -27,6 +27,7 @@ sub busquedaDinamica {
 
 sub _inicializarMatriz {
     my($pTexto, $pPatron) = @_;
+    @matriz = (); #Se reinicia la matriz cada vez que se busca un nuevo patrón
     
     my $largo_texto = length($pTexto);
     my $largo_patron = length($pPatron);
@@ -71,3 +72,5 @@ sub _imprimirMatriz {
     
     print("\n");
 }
+
+1;

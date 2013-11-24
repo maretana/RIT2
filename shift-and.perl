@@ -12,7 +12,7 @@
 =begin comment
 Busca si el patrón está en la palabra usando el método shift-and.
 @param $pPalabra Palabra en la que se busca el patrón.
-@param $pLimite el 1 más significativo según en tamaño de patrón. Se agrega en cada shift.
+@param $pLimite el 1 más significativo según el tamaño de patrón. Se agrega en cada shift.
 @param $pMascaras Referencia a un hash que contiene las máscaras de cada letra del patrón.
 @returns Retorna un 1 si encuentra el patrón dentro de la palabra y un 0 de lo contrario.
 =end comment
