@@ -55,15 +55,15 @@ foreach $documento (@documentos) {
 			push @info_doc, $apariciones;
 		}#fin si es búsqueda con opciones
 		
-		elsif ($patron =~ /##/){
+		elsif ($patron =~ /##/){								#AUTOMATA
 			die "Autómata de estado finito no determinístico no implementado\n";
 		}#fin si es búsqueda con errores 2
 		
-		elsif ($patron =~ /#/){
+		elsif ($patron =~ /#/){									#PROGRAMACION DINAMICA
 			die "Programación dinámica no implementada\n";
 		}#fi si es busqueda con errores 1
 		
-		elsif ($patron =~ /[0-9a-zA-Z_ñÑáéíóúüÁÉÍÓÚÜ]+/) {	#HORSPOOL
+		elsif ($patron =~ /[0-9a-zA-Z_ñÑáéíóúüÁÉÍÓÚÜ]+/) {		#HORSPOOL
 			_calcularTabla($patron);
 			$apariciones = 0;
 			foreach $palabra (@palabras) {
