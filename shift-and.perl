@@ -5,7 +5,7 @@
 	Recuperación de Información Textual
 	Proyecto 2
 	Mario Alberto Retana Rojas - 201029799
-	Wei Hua Zheng Ma - 2010XXXXX
+	Wei Hua Zheng Ma - 201020990
 =end comment
 =cut
 
