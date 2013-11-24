@@ -25,8 +25,8 @@ sub buscarPatron_shift_and{
 	my $n = length $pPalabra;
 	for (my $i=0;$i<$n;$i++) {
 		my $char = substr $pPalabra, $i, 1;
-		$D = (($D >> 1) | $pLimite) & $B{$char};
-		if ($D & 1) {
+		$D = (($D << 1) | 1) & $B{$char};
+		if ($D & $pLimite) {
 			$resultado = 1;
 			last;
 		}#fin si encontro el patrón
@@ -48,21 +48,22 @@ sub procesarPatron {
 	my ($pPatron) = @_;
 	my $opcion = 0;
 	my $cadena = '';
-	my @p;
+	my $largo = length $pPatron;
+	my @p = ();
 	#Recorre el patron de forma inversa para que el
 	#array @p quede correcto.
-	for (my $i=(length($pPatron)-1);$i>=0;$i--) {
+	for (my $i=0;$i<$largo;$i++) {
 		my $char = substr($pPatron,$i,1);
 		if ($char eq '[') {
+			$opcion = 1;
+		}
+		elsif ($char eq ']') {
 			$opcion = 0;
 			push(@p,$cadena);
 			$cadena = '';
 		}
-		elsif ($char eq ']') {
-			$opcion = 1;
-		}
 		elsif ($opcion) {
-			$cadena = $char . $cadena;
+			$cadena = $cadena . $char;
 		}#si esta en modo opcion
 		else {
 			push (@p, $char);
@@ -70,7 +71,7 @@ sub procesarPatron {
 	}#fin for
 	#Verifica el tamaño del patron
 	my $limite = 8 * length pack 'i', 0;
-	my $largo = @p;
+	$largo = @p;
 	if ($largo > $limite) {
 		print "$pPatron se va a truncar\n";
 		$#p = $largo - 1;
