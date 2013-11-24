@@ -5,7 +5,7 @@
 	Recuperación de Información Textual
 	Proyecto 2
 	Mario Alberto Retana Rojas - 201029799
-	Wei Hua Zheng Ma - 2010XXXXX
+	Wei Hua Zheng Ma - 201020990
 =end comment
 =cut
 
@@ -15,7 +15,7 @@ use utf8;	                # Necesario si el equipo está en esta codificación.
 my @alfabeto = ("a".."z");  # Arreglo que contiene el alfabeto
 my %tabla_d;                # Tabla que contiene los corrimientos
 
-print(&busquedaHorspool($ARGV[0], $ARGV[1]) . "\n");
+#print(&busquedaHorspool($ARGV[0], $ARGV[1]) . "\n");
 
 =begin comment
     Realiza la busqueda en un texto de un patron siguiendo el algoritmo
@@ -41,6 +41,7 @@ sub busquedaHorspool {
 =cut
 sub _calcularTabla {
     my($pPatron) = @_;
+    #my %tabla_d = (); #se reinicia la tabla cada vez que la calcula.
     my $largo_patron = length($pPatron);
     
     foreach my $letra (@alfabeto) {
