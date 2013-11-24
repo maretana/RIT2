@@ -45,6 +45,7 @@ sub calcularEstadosIniciales {
 	for (my $i=0;$i<=$pErrores;$i++) {
 		$D{$i} = (1 << $i) - 1;
 	}#fin for
+	return \%D;
 }#fin calcular estados iniciales
 
 =begin comment
@@ -78,7 +79,7 @@ sub NFA{
 		}#fin for
 		if ($nD & $pLimite) {
 			return 1;
-		}#fin si se encontróel patrón
+		}#fin si se encontró el patrón
 	}#fin for
 	return 0;
 }#fin Non Finite Automaton
