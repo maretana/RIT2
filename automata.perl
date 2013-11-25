@@ -80,7 +80,6 @@ sub NFA{
 			$D{$i} = $nD;
 		}#fin for
 		if ($nD & $pLimite) {
-			print "$pPalabra\n";
 			return 1;
 		}#fin si se encontró el patrón
 	}#fin for
