@@ -8,10 +8,6 @@ package busquedahadoop;
  * @author Mario Retana Rojas - 201029799
  * @author Wei Hua Zheng Ma - 201020990
  */
-public class BusquedaSecuencial {
-
+public class NumeradorArchivos {
     
-    public static void main(String[] args) {
-        // TODO code application logic here
-    }
 }
