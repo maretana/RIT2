@@ -46,7 +46,7 @@ foreach $documento (@documentos) {
 	}#fin while
 	my @info_doc = ();
 	for (my $i=2;$i<$argc;$i++) {
-		$patron = $ARGV[$i];
+		$patron = Encode::decode_utf8($ARGV[$i]);
 		if ($patron =~ /\[[0-9a-zA-Z_ñÑáéíóúüÁÉÍÓÚÜ]+\]/) {		#SHIFT-AND
 			my @p = procesarPatron($patron);
 			my $B = calcularMascaras(\@p);
@@ -76,11 +76,12 @@ foreach $documento (@documentos) {
 		
 		elsif ($patron =~ /#/){									#PROGRAMACION DINAMICA
 			my @split = split '#', $patron;
-			my $errores = $split[1];		        #Saca la cantidad de errores permitidos del patrón
-			my $patron2 = $split[0];		        #La parte del patrón antes del #
+			my $errores = $split[ERRORES];		        #Saca la cantidad de errores permitidos del patrón
+			my $patron2 = $split[PATRON];		        #La parte del patrón antes del #
+			_inicializarMatriz($palabra,$patron2);
             $apariciones = 0;
 			foreach $palabra (@palabras) {
-				$apariciones += busquedaDinamica($palabra, $patron2, $errores);
+				$apariciones += _dinamico($palabra, $patron2, $errores);
 			}#fin for
 			push @info_doc, $apariciones;
 		}#fi si es busqueda con errores 1

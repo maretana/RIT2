@@ -10,10 +10,7 @@
 =cut
 
 use List::Util qw(min);     # Usado para encontrar el minimo entre valores dados.
-use utf8;	                # Necesario si el equipo está en esta codificación.
 
-binmode(STDOUT, ":utf8");
-binmode(STDERR, ":utf8");
 
 my @matriz;                 # Matriz que "recuerda" los resultados anteriores
 

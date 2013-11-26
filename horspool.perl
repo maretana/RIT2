@@ -9,12 +9,6 @@
 =end comment
 =cut
 
-use utf8;	                # Necesario si el equipo está en esta codificación. 
-use Encode;
-
-binmode(STDOUT, ":utf8");
-binmode(STDERR, ":utf8");
-
 =begin comment
     Realiza la busqueda en un texto de un patron siguiendo el algoritmo
     Horspool.
