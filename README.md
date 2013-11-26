@@ -5,7 +5,7 @@ Segundo proyecto del curso Recuperación de Información Textual del Instituto T
 
 <b>Estudiantes:</b>
 * Mario Alberto Retana Rojas - 201029799
-* Wei Hua Zheng Ma - 2010XXXXX
+* Wei Hua Zheng Ma - 201020990
 
 <dl>
         <dt>Uso:</dt>
