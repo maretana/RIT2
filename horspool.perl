@@ -26,8 +26,13 @@ binmode(STDERR, ":utf8");
 =cut
 sub busquedaHorspool {
     my($pTexto, $pPatron, %pTabla) = @_;
-
-    return _horspool($pTexto, $pPatron, %pTabla);
+    
+    if ($pPatron =~ /[0-9a-zA-Z_ñÑáéíóúüÁÉÍÓÚÜ]+\@i/) {
+        my @patron = split(/@/, $pPatron);
+        return _horspool($pTexto, $patron[0], 1, %pTabla);
+    } else {
+        return _horspool($pTexto, $pPatron, 0, %pTabla);
+    }
 }
 
 =begin comment
@@ -60,12 +65,14 @@ sub _calcularTabla {
     tomando en cuenta que la primera posicion de un string es 0.
     @param $pTexto texto en el cual se busca el patron.
     @param $pPatron patron a ser buscado en el texto.
+    @param $pIgnoreCase indica si se ignora o no mayusculas.
+    @param %pTabla tabla con los desplazamientos.
     @returns -1 si no encuentra.
     @returns $index + 1, posicion en donde comienza el patron.
 =end comment
 =cut
 sub _horspool {
-    my($pTexto, $pPatron, %pTabla) = @_;
+    my($pTexto, $pPatron, $pIgnoreCase, %pTabla) = @_;
     my $largo_texto = length($pTexto);
     my $largo_patron = length($pPatron);
     
@@ -74,16 +81,26 @@ sub _horspool {
     while ($index <= $largo_texto - $largo_patron) {
         my $posicion = 0;
         
-        while ($posicion <= $largo_patron &&
-                substr($pTexto, $index + $posicion, 1) eq substr($pPatron, $posicion, 1)) {
-            $posicion++;
+        if ($pIgnoreCase == 1) {
+            while ($posicion <= $largo_patron &&
+                    lc(substr($pTexto, $index + $posicion, 1)) eq lc(substr($pPatron, $posicion, 1))) {
+                $posicion++;
+            }
+        } else {
+            while ($posicion <= $largo_patron &&
+                    substr($pTexto, $index + $posicion, 1) eq substr($pPatron, $posicion, 1)) {
+                $posicion++;
+            }
         }
         
         if ($posicion >= $largo_patron) {
             return 1;
         } else {
+            #print(substr($pTexto, $index + $largo_patron - 1, 1) . "\n");
             $index += $pTabla{substr($pTexto, $index + $largo_patron - 1, 1)};
         }
+        
+        #print($index . "\n");
     }
     
     return 0;
