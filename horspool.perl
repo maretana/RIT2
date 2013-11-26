@@ -25,13 +25,13 @@ binmode(STDERR, ":utf8");
 =end comment
 =cut
 sub busquedaHorspool {
-    my($pTexto, $pPatron, %pTabla) = @_;
+    my($pTexto, $pPatron, $pTabla) = @_;
     
     if ($pPatron =~ /[0-9a-zA-Z_ñÑáéíóúüÁÉÍÓÚÜ]+\@i/) {
         my @patron = split(/@/, $pPatron);
-        return _horspool($pTexto, $patron[0], 1, %pTabla);
+        return _horspool($pTexto, $patron[0], 1, $pTabla);
     } else {
-        return _horspool($pTexto, $pPatron, 0, %pTabla);
+        return _horspool($pTexto, $pPatron, 0, $pTabla);
     }
 }
 
@@ -55,7 +55,7 @@ sub _calcularTabla {
         $tabla_d{substr($pPatron, $index, 1)} = $largo_patron - $index - 1;
     }
     
-    return %tabla_d;
+    return \%tabla_d;
 }
 
 =begin comment
@@ -72,9 +72,10 @@ sub _calcularTabla {
 =end comment
 =cut
 sub _horspool {
-    my($pTexto, $pPatron, $pIgnoreCase, %pTabla) = @_;
+    my($pTexto, $pPatron, $pIgnoreCase, $pTabla) = @_;
     my $largo_texto = length($pTexto);
     my $largo_patron = length($pPatron);
+    my %tabla_d = %{$pTabla};
     
     my $index = 0;
     
@@ -97,7 +98,7 @@ sub _horspool {
             return 1;
         } else {
             #print(substr($pTexto, $index + $largo_patron - 1, 1) . "\n");
-            $index += $pTabla{substr($pTexto, $index + $largo_patron - 1, 1)};
+            $index += $tabla_d{substr($pTexto, $index + $largo_patron - 1, 1)};
         }
         
         #print($index . "\n");
