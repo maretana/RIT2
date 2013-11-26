@@ -10,6 +10,7 @@
 =cut
 
 use List::Util qw(min);     # Usado para encontrar el minimo entre valores dados.
+use utf8;
 
 
 my @matriz;                 # Matriz que "recuerda" los resultados anteriores

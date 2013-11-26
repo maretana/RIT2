@@ -9,6 +9,8 @@
 =end comment
 =cut
 
+use utf8;
+
 =begin comment
     Realiza la busqueda en un texto de un patron siguiendo el algoritmo
     Horspool.
