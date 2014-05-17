@@ -40,6 +40,8 @@ foreach $documento (@documentos) {
 	open(DOCUMENTO, $documento) || die "No se pudo abrir '$documento'.\n";
 	my @info_doc = ();
 	for (my $i=2;$i<$argc;$i++) {
+		#Se reinicia el file pointer por si este documento ya fue analizado mediante otro patrón.
+		seek DOCUMENTO, 0, 0;
 		$patron = Encode::decode_utf8($ARGV[$i]);
 		if ($patron =~ /\[[0-9a-zA-Z_ñÑáéíóúüÁÉÍÓÚÜ]+\]/) {		#SHIFT-AND
 			my @p = procesarPatron($patron);
