@@ -11,24 +11,23 @@
 
 =begin comment
 Busca si el patrón está en la palabra usando el método shift-and.
-@param $pPalabra Palabra en la que se busca el patrón.
+@param $pLinea L[inea en la que se busca el patrón.
 @param $pLimite el 1 más significativo según el tamaño de patrón. Se agrega en cada shift.
 @param $pMascaras Referencia a un hash que contiene las máscaras de cada letra del patrón.
-@returns Retorna un 1 si encuentra el patrón dentro de la palabra y un 0 de lo contrario.
+@returns Retorna la cantidad de veces que encuentra el patrón dentro de la línea.
 =end comment
 =cut
 sub buscarPatron_shift_and{
-	my ($pPalabra,$pLimite,$pMascaras) = @_;
+	my ($pLinea,$pLimite,$pMascaras) = @_;
 	my %B = %{$pMascaras};
 	my $D = 0;
 	my $resultado = 0;
-	my $n = length $pPalabra;
+	my $n = length $pLinea;
 	for (my $i=0;$i<$n;$i++) {
-		my $char = substr $pPalabra, $i, 1;
+		my $char = substr $pLinea, $i, 1;
 		$D = (($D << 1) | 1) & $B{$char};
 		if ($D & $pLimite) {
-			$resultado = 1;
-			last;
+			$resultado++;
 		}#fin si encontro el patrón
 	}#fin for
 	

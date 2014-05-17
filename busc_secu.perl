@@ -38,12 +38,6 @@ find(sub {push(@documentos,$File::Find::name) if -f}, $ruta);
 
 foreach $documento (@documentos) {
 	open(DOCUMENTO, $documento) || die "No se pudo abrir '$documento'.\n";
-	@palabras = ();							#palabras del archivo
-	while (<DOCUMENTO>) {
-		while ($_ =~ m/[0-9a-zA-Z_ñÑáéíóúüÁÉÍÓÚÜ]*[a-zA-ZñÑáéíóúüÁÉÍÓÚÜ]+[0-9a-zA-Z_ñÑáéíóúüÁÉÍÓÚÜ]*/g) {
-			push @palabras, $&;
-		}#fin while
-	}#fin while
 	my @info_doc = ();
 	for (my $i=2;$i<$argc;$i++) {
 		$patron = Encode::decode_utf8($ARGV[$i]);
@@ -53,9 +47,9 @@ foreach $documento (@documentos) {
 			my $m = @p;
 			$m = 1 << ($m - 1);
 			$apariciones = 0;
-			foreach $palabra (@palabras) {
-				$apariciones += buscarPatron_shift_and($palabra,$m,$B);
-			}#fin for
+			while (<DOCUMENTO>) {
+				$apariciones += buscarPatron_shift_and($_,$m,$B);
+			}#fin while
 			push @info_doc, $apariciones;
 		}#fin si es búsqueda con opciones
 		
