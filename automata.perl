@@ -52,21 +52,22 @@ sub calcularEstadosIniciales {
 NFA (Non finite automaton) se usa para buscar un patron con la tolerancia
 de que ocurran k errores.
 @param $pLimite El 1 más significativo según el largo del patrón.
-@param $pPalabra Palabra en la que se busca el patrón.
+@param $pLinea Línea en la que se busca el patrón.
 @param $pB Referencia a las máscaras del patrón
 @param $pD Referencia a las máscaras de estado iniciales.
-@param $pErrores Cantidad de errores acpetables.
-@returns Retorna 1 si encuentra el patrón y 0 de lo contrario.
+@param $pErrores Cantidad de errores aceptables.
+@returns Retorna la cantidad de veces que encontró el patrón en la línea
 =end comment
 =cut
 sub NFA{
-	my ($pLimite, $pPalabra, $pB, $pD, $pErrores) = @_;
+	my ($pLimite, $pLinea, $pB, $pD, $pErrores) = @_;
 	my %B = %{$pB};
 	my %D = %{$pD};
-	my $n = length $pPalabra;
+	my $n = length $pLinea;
+	my $resultado = 0;
 	
 	for (my $j=0;$j<$n;$j++) {
-		my $char = substr $pPalabra, $j, 1;
+		my $char = substr $pLinea, $j, 1;
 		my $pD = $D{0};
 		my $nD = (($D{0} << 1)|1) & $B{$char};
 		$D{0} = $nD;
@@ -80,10 +81,10 @@ sub NFA{
 			$D{$i} = $nD;
 		}#fin for
 		if ($nD & $pLimite) {
-			return 1;
+			$resultado++;
 		}#fin si se encontró el patrón
 	}#fin for
-	return 0;
+	return $resultado;
 }#fin Non Finite Automaton
 
 1;

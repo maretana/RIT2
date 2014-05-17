@@ -54,7 +54,6 @@ foreach $documento (@documentos) {
 		}#fin si es búsqueda con opciones
 		
 		elsif ($patron =~ /##/){								#AUTOMATA
-			#die "Autómata de estado finito no determinístico no implementado\n";
 			my @split = split /##/, $patron;
 			my $errores = $split[ERRORES];		#Saca la cantidad de errores permitidos del patrón
 			my $patron2 = $split[PATRON];		#La parte del patrón antes del #
@@ -62,9 +61,9 @@ foreach $documento (@documentos) {
 			my $B = calcularMascarasAutomata($patron2);
 			my $limite = 1 << (length($patron2) - 1);
 			$apariciones = 0;
-			foreach $palabra (@palabras) {
-				$apariciones += NFA($limite,$palabra,$B,$D,$errores);
-			}#fin for
+			while (<DOCUMENTO>) {
+				$apariciones += NFA($limite,$_,$B,$D,$errores);
+			}#fin while
 			push @info_doc, $apariciones;
 		}#fin si es búsqueda con errores 2
 		
