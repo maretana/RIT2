@@ -25,25 +25,37 @@ sub busquedaDinamica {
 }
 
 sub _inicializarMatriz {
-    my($pTexto, $pPatron) = @_;
+    my($pPatron) = @_;
     @matriz = (); #Se reinicia la matriz cada vez que se busca un nuevo patrón
     
-    my $largo_texto = length($pTexto);
     my $largo_patron = length($pPatron);
     
     for (my $fila = 0; $fila <= $largo_patron; $fila++) {
         $matriz[$fila][0] = $fila;
     }
-    
-    for (my $columna = 0; $columna <= $largo_texto; $columna++) {
-        $matriz[0][$columna] = 0;
-    }
+
 }
+
+=begin comment
+	Actualiza las filas de la matriz para que tengan un valor de cero.
+	Esto se hace en cada búsqueda ya que la matriz cambia la cantidad de
+	columnas según el tamaño del texto.
+	@param $pLargo Largo del texto en el que se busca el patrón.
+=end comment
+=cut
+sub _reiniciarMatriz {
+	my($pLargo) = @_;
+	for (my $columna = 0; $columna <= $pLargo; $columna++) {
+        $matriz[0][$columna] = 0;
+    }#fin for
+}#fin reiniciar matriz
 
 sub _dinamico {
     my($pTexto, $pPatron, $pErrores) = @_;
     my $largo_texto = length($pTexto);
     my $largo_patron = length($pPatron);
+    
+    _reiniciarMatriz($largo_texto);
     
     for (my $columna = 1; $columna <= $largo_texto; $columna++) {
         for (my $fila = 1; $fila <= $largo_patron; $fila++) {
@@ -58,19 +70,16 @@ sub _dinamico {
         }
     }
     
-    return _buscarErrores($pTexto, $pPatron, $pErrores);
+    return _buscarErrores($largo_texto, $largo_patron, $pErrores);
 }
 
 sub _buscarErrores {
-    my($pTexto, $pPatron, $pErrores) = @_;
-    my $largo_texto = length($pTexto);
-    my $largo_patron = length($pPatron);
+    my($pLargoT, $pLargoP, $pErrores) = @_;
     my $encontrado = 0;
     
-    for (my $columna = 1; $columna <= $largo_texto; $columna++) {
-        if ($matriz[$largo_patron][$columna] == $pErrores) {
-            $encontrado = 1;
-            last;
+    for (my $columna = 1; $columna <= $pLargoT; $columna++) {
+        if ($matriz[$pLargoP][$columna] == $pErrores) {
+            $encontrado++;
         }
     }
     

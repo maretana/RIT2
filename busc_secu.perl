@@ -52,7 +52,7 @@ foreach $documento (@documentos) {
 			}#fin while
 			push @info_doc, $apariciones;
 		}#fin si es búsqueda con opciones
-		
+
 		elsif ($patron =~ /##/){								#AUTOMATA
 			my @split = split /##/, $patron;
 			my $errores = $split[ERRORES];		#Saca la cantidad de errores permitidos del patrón
@@ -66,21 +66,21 @@ foreach $documento (@documentos) {
 			}#fin while
 			push @info_doc, $apariciones;
 		}#fin si es búsqueda con errores 2
-		
+
 		elsif ($patron =~ /#/){									#PROGRAMACION DINAMICA
 			my @split = split '#', $patron;
-			my $errores = $split[ERRORES];		        #Saca la cantidad de errores permitidos del patrón
-			my $patron2 = $split[PATRON];		        #La parte del patrón antes del #
-			_inicializarMatriz($palabra,$patron2);
-            $apariciones = 0;
-			foreach $palabra (@palabras) {
-				$apariciones += _dinamico($palabra, $patron2, $errores);
-			}#fin for
+			my $errores = $split[ERRORES];				#Saca la cantidad de errores permitidos del patrón
+			my $patron2 = $split[PATRON];				#La parte del patrón antes del #
+			_inicializarMatriz($patron2);
+			$apariciones = 0;
+			while (<DOCUMENTO>) {
+				$apariciones += _dinamico($_, $patron2, $errores);
+			}#fin while
 			push @info_doc, $apariciones;
-		}#fi si es busqueda con errores 1
-		
+		}#fin si es busqueda con errores 1
+
 		elsif ($patron =~ /[0-9a-zA-Z_ñÑáéíóúüÁÉÍÓÚÜ]+(\@i)?/) {		#HORSPOOL
-            my $tabla_d = _calcularTabla($patron);
+			my $tabla_d = _calcularTabla($patron);
 			$apariciones = 0;
 			foreach $palabra (@palabras) {
 				$apariciones += busquedaHorspool($palabra, $patron, $tabla_d);
