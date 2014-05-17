@@ -39,16 +39,15 @@ sub busquedaHorspool {
 =cut
 sub _calcularTabla {
     my($pPatron) = @_;
-    my @alfabeto = (split(//, "ñÑáéíóúüÁÉÍÓÚÜ_"), ("a"..."z"), ("A"..."Z"), (0..9));    # Arreglo que contiene el alfabeto
     my %tabla_d = ();                                                                   # Tabla que contiene los corrimientos
     my $largo_patron = length($pPatron);
+    my $patron = $pPatron;
     
-    foreach my $letra (@alfabeto) {
-        $tabla_d{$letra} = $largo_patron;
-    }
-    
+    if ($pPatron =~ /[0-9a-zA-Z_ñÑáéíóúüÁÉÍÓÚÜ]+\@i/) {
+		$patron = lc($pPatron);
+	}#fin si se ignora el case
     for (my $index = 0; $index < $largo_patron - 1; $index++) {
-        $tabla_d{substr($pPatron, $index, 1)} = $largo_patron - $index - 1;
+        $tabla_d{substr($patron, $index, 1)} = $largo_patron - $index -1;
     }
     
     return \%tabla_d;
@@ -63,43 +62,45 @@ sub _calcularTabla {
     @param $pPatron patron a ser buscado en el texto.
     @param $pIgnoreCase indica si se ignora o no mayusculas.
     @param %pTabla tabla con los desplazamientos.
-    @returns -1 si no encuentra.
-    @returns $index + 1, posicion en donde comienza el patron.
+    @returns Retorna la cantidad de veces que encuentra el patrón en el texto.
 =end comment
 =cut
 sub _horspool {
     my($pTexto, $pPatron, $pIgnoreCase, $pTabla) = @_;
     my $largo_texto = length($pTexto);
     my $largo_patron = length($pPatron);
+    my $texto = $pTexto;
+    my $patron = $pPatron;
     my %tabla_d = %{$pTabla};
     
     my $index = 0;
+    my $resultado = 0;
     
-    while ($index <= $largo_texto - $largo_patron) {
+    if ($pIgnoreCase==1) {
+		$texto = lc($texto);
+		$patron = lc($patron);
+	}#fin si no se difernecia entre mayúsculas y minúsculas
+    
+    while ($index < $largo_texto - $largo_patron) {
         my $posicion = 0;
         
-        if ($pIgnoreCase == 1) {
-            while ($posicion <= $largo_patron &&
-                    lc(substr($pTexto, $index + $posicion, 1)) eq lc(substr($pPatron, $posicion, 1))) {
-                $posicion++;
-            }
-        } else {
-            while ($posicion <= $largo_patron &&
-                    substr($pTexto, $index + $posicion, 1) eq substr($pPatron, $posicion, 1)) {
-                $posicion++;
-            }
-        }
+        while ($posicion < $largo_patron and (substr($texto,$index+$posicion,1) eq substr($patron,$posicion,1))) {
+			$posicion++;
+		}#fin while
+		
+        if ($posicion == $largo_patron) {
+            $resultado++;
+		}#fin si se encontró el patrón
         
-        if ($posicion >= $largo_patron) {
-            return 1;
-        } else {
-            #print(substr($pTexto, $index + $largo_patron - 1, 1) . "\n");
-            $index += $tabla_d{substr($pTexto, $index + $largo_patron - 1, 1)};
-        }
-        
-        #print($index . "\n");
+        $letra = substr($texto,$index+$largo_patron-1,1);
+		if ( defined($tabla_d{$letra}) ) {
+			$index += $tabla_d{$letra};
+		}
+		else {
+			$index += $largo_patron;
+		}
     }
     
-    return 0;
+    return $resultado;
 }
 1;

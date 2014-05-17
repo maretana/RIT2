@@ -82,9 +82,9 @@ foreach $documento (@documentos) {
 		elsif ($patron =~ /[0-9a-zA-Z_ñÑáéíóúüÁÉÍÓÚÜ]+(\@i)?/) {		#HORSPOOL
 			my $tabla_d = _calcularTabla($patron);
 			$apariciones = 0;
-			foreach $palabra (@palabras) {
-				$apariciones += busquedaHorspool($palabra, $patron, $tabla_d);
-			}#fin for
+			while (<DOCUMENTO>) {
+				$apariciones += busquedaHorspool($_, $patron, $tabla_d);
+			}#fin while
 			push @info_doc, $apariciones;
 		}#fin si es busqueda simple
 		else {
