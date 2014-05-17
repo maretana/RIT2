@@ -40,12 +40,15 @@ sub busquedaHorspool {
 sub _calcularTabla {
     my($pPatron) = @_;
     my %tabla_d = ();                                                                   # Tabla que contiene los corrimientos
-    my $largo_patron = length($pPatron);
     my $patron = $pPatron;
     
-    if ($pPatron =~ /[0-9a-zA-Z_ñÑáéíóúüÁÉÍÓÚÜ]+\@i/) {
-		$patron = lc($pPatron);
+    if ($patron =~ /[0-9a-zA-Z_ñÑáéíóúüÁÉÍÓÚÜ]+\@i/) {
+		my @patron_array = split(/@/, $patron);
+		$patron = lc($patron_array[0]);
 	}#fin si se ignora el case
+	
+	my $largo_patron = length($patron);
+	
     for (my $index = 0; $index < $largo_patron - 1; $index++) {
         $tabla_d{substr($patron, $index, 1)} = $largo_patron - $index -1;
     }
@@ -88,7 +91,7 @@ sub _horspool {
 			$posicion++;
 		}#fin while
 		
-        if ($posicion == $largo_patron) {
+        if ($posicion >= $largo_patron) {
             $resultado++;
 		}#fin si se encontró el patrón
         
